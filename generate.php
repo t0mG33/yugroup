@@ -31,6 +31,8 @@ $tplIdx = $pdf->importPage(1);
 	// use the imported page and place it at point 10,10 with a width of 200 mm   (This is the image of the included pdf)
 	$pdf->useTemplate($tplIdx, 2, 0, 215); 
 
+setlocale(LC_MONETARY,"en_US");
+
 $buyer_name = 'Shihan araf';
 $buyer_address = 'Kazla Anandita';
 
@@ -50,8 +52,8 @@ $vehicle_colour = 'Red';
 $vehicle_sn = '20235870';
 $vehicle_stock_number = '545875';
 
-$vehichle_unit = 'km';
-$vehichle_reading = 51245;
+$vehicle_unit = 'km';
+$vehicle_reading = 51245;
 
 
 $tradein_year =  2023;
@@ -69,6 +71,22 @@ $tradein_address = 'Dhaka';
 $tradein_lien_amount = 5458;
 
 $retail_selling_price = 12457;
+//$trade_in_allowance = $tradein_lien_amount;
+$retail_subtotal = $retail_selling_price - $trade_in_allowance;
+
+$admin_fee = 100;
+$finance_fee = 100;
+$admin_subtotal = $retail_subtotal + $admin_fee + $finance_fee;
+$sec_trans = 100;
+$extended_service_contract = 100;
+$amvic_fee = 6.25;
+$gst = 100;
+$registration_fee = 100;
+$subtotal = $admin_subtotal + $sec_trans + $extended_service_contract + $amvic_fee + $registration_fee;
+$downpayment = 1200;
+$payout_lien = 1000;
+$total_balance = $subtotal - $downpayment - $payout_lien;
+
 extract($_POST);
 
 $pdf->SetFont('arial','B',10); 
@@ -105,18 +123,18 @@ $pdf->SetXY(77,53);
 $pdf->Cell(106.3, 4,$vehicle_sn,0,0,'L');
 $pdf->Cell(25,4,$vehicle_stock_number,0,0,'L');
 
-if($vehichle_unit == 'mi')
+if($vehicle_unit == 'mi')
 {
 	$pdf->SetXY(99.5,57.7);
 	$pdf->Image('tick.png',96,57.5,3);
-	$pdf->Cell(106.3, 3,$vehichle_reading,0,0,'L');
+	$pdf->Cell(106.3, 3,$vehicle_reading,0,0,'L');
 }
 
-if($vehichle_unit == 'km')
+if($vehicle_unit == 'km')
 {
 	$pdf->SetXY(99.5,60.7);
 	$pdf->Image('tick.png',96,60.5,3);
-	$pdf->Cell(106.3, 3,$vehichle_reading,0,0,'L');
+	$pdf->Cell(106.3, 3,$vehicle_reading,0,0,'L');
 }
 
 
@@ -171,10 +189,45 @@ $pdf->Cell(36, 4,$tradein_lien_payable,0,0,'L');
 
 $pdf->SetXY(77.5,140);
 $pdf->Cell(57.5, 4,$tradein_address,0,0,'L');
-$pdf->Cell(20, 4,$tradein_lien_amount,0,0,'L');
+$pdf->Cell(20, 4,money_format("%.2n", $tradein_lien_amount),0,0,'L');
 
-$pdf->SetXY(183.5,88.5);
-$pdf->Cell(17.5, 4,$retail_selling_price,0,0,'R');
+$pdf->SetXY(188.5,88.5);
+$pdf->Cell(17.5, 4,money_format("%.2n", $retail_selling_price),0,0,'R');
+$pdf->SetXY(188.5,92.5);
+$pdf->Cell(17.5, 4,money_format("%.2n", $tradein_lien_amount),0,0,'R');
+$pdf->SetXY(188.5,107);
+$pdf->Cell(17.5, 4,money_format("%.2n", $retail_subtotal),0,0,'R');
+$pdf->SetXY(188.5,113);
+$pdf->Cell(17.5, 4,money_format("%.2n", $admin_fee),0,0,'R');
+$pdf->SetXY(188.5,117);
+$pdf->Cell(17.5, 4,money_format("%.2n", $finance_fee),0,0,'R');
+$pdf->SetXY(188.5,122);
+$pdf->Cell(17.5, 4,money_format("%.2n", $admin_subtotal),0,0,'R');
+$pdf->SetXY(188.5,132);
+$pdf->Cell(17.5, 4,money_format("%.2n", $sec_trans),0,0,'R');
+$pdf->SetXY(188.5,141);
+$pdf->Cell(17.5, 4,money_format("%.2n", $extended_service_contract),0,0,'R');
+
+$pdf->SetXY(188.5,150);
+$pdf->Cell(17.5, 4,$amvic_fee,0,0,'R');
+
+$pdf->SetXY(188.5,160);
+$pdf->Cell(17.5, 4,money_format("%.2n", $gst),0,0,'R');
+$pdf->SetXY(188.5,174);
+$pdf->Cell(17.5, 4,money_format("%.2n", $registration_fee),0,0,'R');
+$pdf->SetXY(188.5,189);
+$pdf->Cell(17.5, 4,money_format("%.2n", $downpayment),0,0,'R');
+$pdf->SetXY(188.5,198);
+$pdf->Cell(17.5, 4,money_format("%.2n", $payout_lien),0,0,'R');
+
+$pdf->SetFont('arial','B',11); 
+$pdf->SetXY(190,215);
+$pdf->Cell(17.5, 4,$total_balance,0,0,'R');
+
+//https://www.geeksforgeeks.org/php-cookies/
+//https://www.geeksforgeeks.org/what-are-the-best-input-sanitizing-functions-in-php/
+//https://stackoverflow.com/questions/24685412/how-to-display-a-cookie-value-on-a-php-page-that-was-set-on-another-php-page
+//https://medium.com/@mena.meseha/9-rules-for-solid-php-security-9ff879f5156d
 
 //$pdf->Cell(80,38.5,$buyer_address,0,1,'L');
 
