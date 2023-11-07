@@ -211,7 +211,7 @@
                     </div>
                     <div class="col-md-2">
                         <label class="form-label text-start w-100" for="tradein_lien_amount">Lien amount</label>
-                        <input type="number" min="0" step="0.01" class="form-control" id='tradein_lien_amount' name="tradein_lien_amount" placeholder="Enter the amount due for the lien on the trade vehicle">
+                        <input type="number" min="0" step="0.01" class="form-control" id='tradein_lien_amount' name="tradein_lien_amount" placeholder="Enter the amount due for the lien on the trade vehicle" required>
                     </div>
                 </div>
 
@@ -224,34 +224,34 @@
                 <div class="row my-3">
                     <div class="col-6 col-md-2">
                         <label class="form-label text-start w-100" for="admin_fee">Admin. fee</label>
-                        <input id="admin_fee" class="form-control" type="number" min="0" step="0.01" name="admin_fee" placeholder="Enter amount">
+                        <input id="admin_fee" class="form-control" type="number" min="0" step="0.01" name="admin_fee" placeholder="Enter amount" required>
                     </div>
                     <div class="col-6 col-md-2">
                         <label class="form-label text-start w-100" for="finance_fee">Finance fee</label>
-                        <input id="finance_fee" class="form-control" type="number" min="0" step="0.01" name="finance_fee" placeholder="Enter amount">
+                        <input id="finance_fee" class="form-control" type="number" min="0" step="0.01" name="finance_fee" placeholder="Enter amount" required>
                     </div>
                     <div class="col-6 col-md-2">
                         <label class="form-label text-start w-100" for="sec_trans">Security trans.</label>
-                        <input id="sec_trans" class="form-control" type="number" min="0" step="0.01" name="sec_trans" placeholder="Enter amount" >
+                        <input id="sec_trans" class="form-control" type="number" min="0" step="0.01" name="sec_trans" placeholder="Enter amount"  required>
                     </div>
                     <div class="col-6 col-md-2">
                         <label class="form-label text-start w-100" for="registration_fee">Reg./PPSA</label>
-                        <input type="number" min="0" step="0.01" class="form-control" id='registration_fee' name="registration_fee" placeholder="Enter amount">
+                        <input type="number" min="0" step="0.01" class="form-control" id='registration_fee' name="registration_fee" placeholder="Enter amount" required>
                     </div>
                     <div class="col-12 col-md-2">
                         <label class="form-label text-start w-100" for="eextended_service_contract">Ext. service contract</label>
-                        <input type="number" min="0" step="0.01" class="form-control" id='extended_service_contract' name="extended_service_contract" placeholder="Enter amount">
+                        <input type="number" min="0" step="0.01" class="form-control" id='extended_service_contract' name="extended_service_contract" placeholder="Enter amount" required>
                     </div>
                     <div class="col-6 col-md-2">
                         <label class="form-label text-start w-100" for="downpayment">Downpayment</label>
-                        <input id="downpayment" min="0" step="0.01" class="form-control" type="number" name="downpayment" placeholder="Enter amount">
+                        <input id="downpayment" min="0" step="0.01" class="form-control" type="number" name="downpayment" placeholder="Enter amount" required>
                     </div>
                 </div>
 
                 <div class="row my-3">
                     <div class="col-12 col-md-2">
                         <label class="form-label text-start w-100" for="payout_lien">Payout lien on trade</label>
-                        <input id="payout_lien" class="form-control" type="number" min="0" step="0.01" name="payout_lien" placeholder="Enter amount">
+                        <input id="payout_lien" class="form-control" type="number" min="0" step="0.01" name="payout_lien" placeholder="Enter amount" required>
                     </div>
                 </div>
 
