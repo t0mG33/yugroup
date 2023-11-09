@@ -13,6 +13,14 @@ require_once('autoload.php');
 require_once('fpdf.php');
 require_once('FpdfTpl.php');
 
+//Alert function for form invalidation
+function invalidate_form($message) { 
+    //Redirect to form
+	header('Location: ./');
+    // Display the alert box  
+    echo "<script>alert('$message');</script>"; 
+}
+
 
 // initiate FPDI  
 $pdf =new Fpdi('P','mm', array(215.9,279.4));  
@@ -69,25 +77,37 @@ $tradein_lien_payable = 'asdfasf';
 
 $tradein_address = 'Dhaka';
 $tradein_lien_amount = 5458;
-
 $retail_selling_price = 12457;
-//$trade_in_allowance = $tradein_lien_amount;
-$retail_subtotal = $retail_selling_price - $trade_in_allowance;
+
+// $trade_in_allowance = $tradein_lien_amount;
+// $retail_subtotal = ($retail_selling_price-$tradein_lien_amount);
+// $retail_subtotal = 3-1;
 
 $admin_fee = 100;
 $finance_fee = 100;
-$admin_subtotal = $retail_subtotal + $admin_fee + $finance_fee;
+// $admin_subtotal = $retail_subtotal + $admin_fee + $finance_fee;
 $sec_trans = 100;
 $extended_service_contract = 100;
 $amvic_fee = 6.25;
-$gst = ($admin_subtotal + $extended_service_contract) * 0.05;
+// $gst = ($admin_subtotal + $extended_service_contract) * 0.05;
 $registration_fee = 100;
-$subtotal = $admin_subtotal + $sec_trans + $extended_service_contract + $gst + $amvic_fee + $registration_fee;
+// $subtotal = $admin_subtotal + $sec_trans + $extended_service_contract + $gst + $amvic_fee + $registration_fee;
 $downpayment = 1200;
 $payout_lien = 1000;
-$total_balance = $subtotal - $downpayment - $payout_lien;
+// $total_balance = $subtotal - $downpayment - $payout_lien;
 
 extract($_POST);
+
+if (empty($tradein_lien_amount)) {
+	$tradein_lien_amount = 0;
+	$payout_lien = 0;
+}
+
+$retail_subtotal = ($retail_selling_price-$tradein_lien_amount);
+$admin_subtotal = $retail_subtotal + $admin_fee + $finance_fee;
+$gst = ($admin_subtotal + $extended_service_contract) * 0.05;
+$subtotal = $admin_subtotal + $sec_trans + $extended_service_contract + $gst + $amvic_fee + $registration_fee;
+$total_balance = $subtotal - $downpayment - $payout_lien;
 
 $pdf->SetFont('arial','B',10); 
 $pdf->SetXY(168.9,16);
@@ -98,13 +118,18 @@ $pdf->Cell(12.5,4,date('Y'),0,0,'C');
 $pdf->SetFont('arial','B',8); 
 
 $pdf->SetXY(10,27.5);
-$pdf->Cell(105.5,4,$buyer_name,0,0,'L');
-$pdf->Cell(90,4,$buyer_address,0,1,'L');
+// if (filter_var(!$buyer_name, FILTER_SANITIZE_STRING) === false) {
+	$pdf->Cell(105.5,4,$buyer_name,0,0,'L');
+// } else {
+// 	invalidate_form('Buyer\'s name is not a valid string');
+// }
+
+$pdf->Cell(90,4,filter_var($buyer_address,FILTER_SANITIZE_STRING),0,1,'L');
 
 $pdf->SetXY(10,33.5);
-$pdf->Cell(95.5,4,$buyer_city,0,0,'L');
-$pdf->Cell(64,4,$buyer_province,0,0,'L');
-$pdf->Cell(35,4,$buyer_postCode,0,0,'L');
+$pdf->Cell(95.5,4,filter_var($buyer_city,FILTER_SANITIZE_STRING),0,0,'L');
+$pdf->Cell(64,4,filter_var($buyer_province,FILTER_SANITIZE_STRING),0,0,'L');
+$pdf->Cell(35,4,filter_var($buyer_postCode,FILTER_SANITIZE_STRING),0,0,'L');
 
 $pdf->SetXY(10,39.8);
 $pdf->Cell(95.5,4,$buyer_email,0,0,'L');
@@ -222,12 +247,11 @@ $pdf->Cell(17.5, 4,money_format("%.2n", $payout_lien),0,0,'R');
 
 $pdf->SetFont('arial','B',11); 
 $pdf->SetXY(190,215);
-$pdf->Cell(17.5, 4,$total_balance,0,0,'R');
+$pdf->Cell(17.5, 4,money_format("%.2n", $total_balance),0,0,'R');
 
-//https://www.geeksforgeeks.org/php-cookies/
 //https://www.geeksforgeeks.org/what-are-the-best-input-sanitizing-functions-in-php/
-//https://stackoverflow.com/questions/24685412/how-to-display-a-cookie-value-on-a-php-page-that-was-set-on-another-php-page
-//https://medium.com/@mena.meseha/9-rules-for-solid-php-security-9ff879f5156d
+//https://php.org/php-filters-validation-and-sanitization/
+//https://blog.hubspot.com/website/php-redirect
 
 //$pdf->Cell(80,38.5,$buyer_address,0,1,'L');
 

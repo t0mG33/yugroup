@@ -211,7 +211,7 @@
                     </div>
                     <div class="col-md-2">
                         <label class="form-label text-start w-100" for="tradein_lien_amount">Lien amount</label>
-                        <input type="number" min="0" step="0.01" class="form-control" id='tradein_lien_amount' name="tradein_lien_amount" placeholder="Enter the amount due for the lien on the trade vehicle" required>
+                        <input type="number" min="0" step="0.01" class="form-control" id='tradein_lien_amount' name="tradein_lien_amount" placeholder="Enter the amount due for the lien on the trade vehicle">
                     </div>
                 </div>
 
@@ -251,7 +251,7 @@
                 <div class="row my-3">
                     <div class="col-12 col-md-2">
                         <label class="form-label text-start w-100" for="payout_lien">Payout lien on trade</label>
-                        <input id="payout_lien" class="form-control" type="number" min="0" step="0.01" name="payout_lien" placeholder="Enter amount" required>
+                        <input id="payout_lien" class="form-control" type="number" min="0" step="0.01" name="payout_lien" placeholder="Enter amount">
                     </div>
                 </div>
 
