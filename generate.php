@@ -1,5 +1,5 @@
 ﻿<?php
-//ob_start();
+
 use setasign\Fpdi\Fpdi;
 // or for usage with TCPDF:
 // use setasign\Fpdi\Tcpdf\Fpdi;
@@ -12,15 +12,6 @@ define('FPDF_FONTPATH','./font/');
 require_once('autoload.php');
 require_once('fpdf.php');
 require_once('FpdfTpl.php');
-
-//Alert function for form invalidation
-function invalidate_form($message) { 
-    //Redirect to form
-	header('Location: ./');
-    // Display the alert box  
-    echo "<script>alert('$message');</script>"; 
-}
-
 
 // initiate FPDI  
 $pdf =new Fpdi('P','mm', array(215.9,279.4));  
@@ -79,22 +70,14 @@ $tradein_address = 'Dhaka';
 $tradein_lien_amount = 5458;
 $retail_selling_price = 12457;
 
-// $trade_in_allowance = $tradein_lien_amount;
-// $retail_subtotal = ($retail_selling_price-$tradein_lien_amount);
-// $retail_subtotal = 3-1;
-
 $admin_fee = 100;
 $finance_fee = 100;
-// $admin_subtotal = $retail_subtotal + $admin_fee + $finance_fee;
 $sec_trans = 100;
 $extended_service_contract = 100;
 $amvic_fee = 6.25;
-// $gst = ($admin_subtotal + $extended_service_contract) * 0.05;
 $registration_fee = 100;
-// $subtotal = $admin_subtotal + $sec_trans + $extended_service_contract + $gst + $amvic_fee + $registration_fee;
 $downpayment = 1200;
 $payout_lien = 1000;
-// $total_balance = $subtotal - $downpayment - $payout_lien;
 
 extract($_POST);
 
@@ -118,11 +101,7 @@ $pdf->Cell(12.5,4,date('Y'),0,0,'C');
 $pdf->SetFont('arial','B',8); 
 
 $pdf->SetXY(10,27.5);
-// if (filter_var(!$buyer_name, FILTER_SANITIZE_STRING) === false) {
-	$pdf->Cell(105.5,4,$buyer_name,0,0,'L');
-// } else {
-// 	invalidate_form('Buyer\'s name is not a valid string');
-// }
+$pdf->Cell(105.5,4,$buyer_name,0,0,'L');
 
 $pdf->Cell(90,4,filter_var($buyer_address,FILTER_SANITIZE_STRING),0,1,'L');
 
@@ -171,10 +150,6 @@ $pdf->Cell(25,4,$tradein_model,0,0,'L');
 
 $pdf->SetXY(77.5,96.8);
 $pdf->Cell(21.5, 4,$tradein_serial,0,0,'L');
-
-//$offered = '';
-//$accepted = '';
-//$refused = '';
 
 if(!empty($offered))
 {
@@ -249,20 +224,7 @@ $pdf->SetFont('arial','B',11);
 $pdf->SetXY(190,215);
 $pdf->Cell(17.5, 4,money_format("%.2n", $total_balance),0,0,'R');
 
-//https://www.geeksforgeeks.org/what-are-the-best-input-sanitizing-functions-in-php/
-//https://php.org/php-filters-validation-and-sanitization/
-//https://blog.hubspot.com/website/php-redirect
-
-//$pdf->Cell(80,38.5,$buyer_address,0,1,'L');
-
-
-/*$pdf->SetTitle('New Title');
-$pdf->SetAuthor('New Author');
-$pdf->SetCreator('New Creator');
-$pdf->SetSubject('New SetSubject');
-$pdf->SetKeywords('New SetKeywords');
-*/
 
 $pdf->Output('sample.pdf','I');
-//ob_clean();
+
 ?>
