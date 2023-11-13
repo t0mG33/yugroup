@@ -88,9 +88,9 @@ if (empty($tradein_lien_amount)) {
 
 $retail_subtotal = ($retail_selling_price-$tradein_lien_amount);
 $admin_subtotal = $retail_subtotal + $admin_fee + $finance_fee;
-$gst = ($admin_subtotal + $extended_service_contract) * 0.05;
+$gst = ($admin_subtotal + $extended_service_contract + $amvic_fee) * 0.05;
 $subtotal = $admin_subtotal + $sec_trans + $extended_service_contract + $gst + $amvic_fee + $registration_fee;
-$total_balance = $subtotal - $downpayment - $payout_lien;
+$total_balance = $subtotal - $downpayment + $payout_lien;
 
 $pdf->SetFont('arial','B',10); 
 $pdf->SetXY(168.9,16);
@@ -215,6 +215,8 @@ $pdf->SetXY(188.5,160);
 $pdf->Cell(17.5, 4,money_format("%.2n", $gst),0,0,'R');
 $pdf->SetXY(188.5,174);
 $pdf->Cell(17.5, 4,money_format("%.2n", $registration_fee),0,0,'R');
+$pdf->SetXY(188.5,179);
+$pdf->Cell(17.5, 4,money_format("%.2n", $subtotal),0,0,'R');
 $pdf->SetXY(188.5,189);
 $pdf->Cell(17.5, 4,money_format("%.2n", $downpayment),0,0,'R');
 $pdf->SetXY(188.5,198);
